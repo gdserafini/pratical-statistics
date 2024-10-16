@@ -31,6 +31,23 @@ class ExploratoryDataAnalysis:
         trimmed_weight_sum = sum(n * w for n, w in zip(trimmed_numbers, trimmed_weights))
         return trimmed_weight_sum / sum(trimmed_weights)
 
+    def median(self, numbers: list) -> float | None:
+        numbers_len = len(numbers)
+        if numbers_len == 0: return None
+        if numbers_len % 2 != 0:
+            return sorted(numbers)[numbers_len//2]
+        else:
+            sorted_numbers = sorted(numbers)
+            return (
+                    sorted_numbers[numbers_len//2] +
+                    sorted_numbers[numbers_len//2 - 1]
+            )/2
+
+    #TODO
+    def weighted_mean(self):
+        pass
+
+
 def main() -> None:
     pass
 
