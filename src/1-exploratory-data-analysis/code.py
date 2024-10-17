@@ -1,6 +1,11 @@
+from typing import Any
+
 class ExploratoryDataAnalysis:
-    def mean(self, numbers: list) -> float:
-        return sum(numbers)/len(numbers) if numbers else 0
+    def mean(self, numbers: list) -> Any:
+        assert isinstance(numbers, list) and\
+            len(numbers) > 0 , 'Invalid list type.'
+        if not numbers: return None
+        return sum(numbers)/len(numbers)
 
     def trimmed_mean(self, numbers: list, p: float) -> float:
         if not numbers or p <= 0: return 0
