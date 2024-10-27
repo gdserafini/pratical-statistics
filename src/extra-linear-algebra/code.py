@@ -1,20 +1,44 @@
 class Vector:
-  def get(self) -> tuple: pass
+  """
+  This class represents a tridimensional vector.
+  """
+  def __init__(self, x, y, z):
+    self.x = x
+    self.y = y
+    self.z = z
 
-class Vector2D(Vector):
-  def __init__(self,
-               x1: int, x2: int,
-               y1: int, y2: int) -> None:
-    self._x1 = x1
-    self._y1 = y1
-    self._x2 = x2
-    self._y2 = y2
+def _validate_vector(vector: Vector) -> None:
+  if not isinstance(vector, Vector) or not vector or\
+      not vector.x or not vector.y or not vector.z:
+    raise ValueError("Invalid vector.")
 
-    def get(self) -> tuple:
-      return self._x1, self._y1, self._x2, self._y2
+def _validate_vectors(vectors: list[Vector]) -> None:
+  if not isinstance(vectors, list) or not vectors or len(vectors) <= 0:
+    raise ValueError("Invalid vectors.")
+  for vector in vectors:
+    _validate_vector(vector)
 
-class VectorOperator:
-  def add(self, v: Vector, w: Vector) -> Vector: pass
+def add(v: Vector, w: Vector) -> Vector:
+  """
+  Sum two tridimensional vectors.
+  :param v: vector1 -> Vector.
+  :param w: vector2 -> Vector.
+  :return: sum of two vectors -> Vector
+  :raise ValueError: if vectors is invalid
+  """
+  _validate_vector(v)
+  _validate_vector(w)
+  return Vector(v.x + w.x, v.y + w.y, v.z + w.z)
 
-class Vector2DOperator(VectorOperator):
-  pass
+def add_all(vectors: list[Vector]) -> Vector:
+  """
+  Return sum of a list of tridimensional vectors.
+  :param vectors: list of vectors -> list[Vector]
+  :return: sum of all vectors -> Vector
+  :raise ValueError: if vectors is invalid
+  """
+  _validate_vectors(vectors)
+  sum_x = sum(v.x for v in vectors)
+  sum_y = sum(v.y for v in vectors)
+  sum_z = sum(v.z for v in vectors)
+  return Vector(sum_x, sum_y, sum_z)
