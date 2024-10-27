@@ -1,8 +1,17 @@
 from typing import Any
 
-def mean(numbers: list) -> Any:
+def _validate_numbers(numbers: list) -> None:
     if not numbers or not isinstance(numbers, list) or len(numbers) <= 0:
         raise ValueError('Invalid data params.')
+
+def mean(numbers: list[Any]) -> Any:
+    """
+    Calculates the mean of a list of numbers.
+    :param numbers: A list of numbers -> list[Any].
+    :return: The mean of the numbers -> Any.
+    :raises ValueError: If 'numbers' is invalid.
+    """
+    _validate_numbers(numbers)
     return sum(numbers)/len(numbers)
 
 def trimmed_mean(numbers: list, p: float) -> float:
@@ -45,3 +54,16 @@ def median(numbers: list) -> float | None:
                 sorted_numbers[numbers_len//2] +
                 sorted_numbers[numbers_len//2 - 1]
         )/2
+
+def mad(numbers: list[Any]) -> float:
+    """
+    Calculates the mean absolute deviation of a list of numbers.
+    The mean difference between the observed data and the mean of the list.
+    :param numbers: A list of numbers -> list[Any].
+    :return: MAD -> float
+    :raises ValueError: If 'numbers' is invalid.
+    """
+    _validate_numbers(numbers)
+    numbers_mean = mean(numbers)
+    abs_deviation = sum(abs(_ - numbers_mean) for _ in numbers)
+    return abs_deviation/len(numbers)
