@@ -56,7 +56,7 @@ def median(numbers: list) -> float | None:
                 sorted_numbers[numbers_len//2 - 1]
         )/2
 
-def mad(numbers: list[Any]) -> float:
+def meanad(numbers: list[Any]) -> float:
     """
     Calculates the mean absolute deviation of a list of numbers.
     The mean difference between the observed data and the mean of the list.
@@ -91,3 +91,16 @@ def std(numbers: list[Any]) -> float:
     """
     _validate_numbers(numbers)
     return math.sqrt(variance(numbers))
+
+def mad(numbers: list[Any]) -> float:
+    """
+    Calculate the median absolute deviation (MAD) of a list.
+    The median of the abolutes deviations of the median.
+    :param numbers: A list of numbers -> list[Any].
+    :return: V -> float
+    :raises ValueError: If 'numbers' is invalid.
+    """
+    _validate_numbers(numbers)
+    numbers_median = median(numbers)
+    abs_median_deviation = [abs(_ - numbers_median) for _ in numbers]
+    return median(abs_median_deviation)
