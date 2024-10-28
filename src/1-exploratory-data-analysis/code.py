@@ -1,4 +1,5 @@
 from typing import Any
+import math
 
 def _validate_numbers(numbers: list) -> None:
     if not numbers or not isinstance(numbers, list) or len(numbers) <= 0:
@@ -67,3 +68,26 @@ def mad(numbers: list[Any]) -> float:
     numbers_mean = mean(numbers)
     abs_deviation = sum(abs(_ - numbers_mean) for _ in numbers)
     return abs_deviation/len(numbers)
+
+def variance(numbers: list[Any]) -> float:
+    """
+    Calculate the variance of a list.
+    The mean of squared deviations.
+    :param numbers: A list of numbers -> list[Any].
+    :return: V -> float
+    :raises ValueError: If 'numbers' is invalid.
+    """
+    _validate_numbers(numbers)
+    numbers_mean = mean(numbers)
+    return (sum((_ - numbers_mean)**2 for _ in numbers))/(len(numbers)-1)
+
+def std(numbers: list[Any]) -> float:
+    """
+    Calculate the standard deviation of a list.
+    The square root of the variance.
+    :param numbers: A list of numbers -> list[Any].
+    :return: V -> float
+    :raises ValueError: If 'numbers' is invalid.
+    """
+    _validate_numbers(numbers)
+    return math.sqrt(variance(numbers))
