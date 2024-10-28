@@ -42,3 +42,15 @@ def add_all(vectors: list[Vector]) -> Vector:
   sum_y = sum(v.y for v in vectors)
   sum_z = sum(v.z for v in vectors)
   return Vector(sum_x, sum_y, sum_z)
+
+def subtract(v: Vector, w: Vector) -> Vector:
+    """
+    Subtract one tridimensional vector from another.
+    :param v: vector1 -> Vector.
+    :param w: vector2 -> Vector.
+    :return: difference of the two vectors -> Vector
+    :raise ValueError: if vectors are invalid
+    """
+    _validate_vector(v)
+    _validate_vector(w)
+    return Vector(v.x - w.x, v.y - w.y, v.z - w.z)
