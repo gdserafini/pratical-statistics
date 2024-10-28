@@ -1,6 +1,8 @@
 from typing import Any
 import math
 
+_MAD_K = 1.4826
+
 def _validate_numbers(numbers: list) -> None:
     if not numbers or not isinstance(numbers, list) or len(numbers) <= 0:
         raise ValueError('Invalid data params.')
@@ -92,15 +94,17 @@ def std(numbers: list[Any]) -> float:
     _validate_numbers(numbers)
     return math.sqrt(variance(numbers))
 
-def mad(numbers: list[Any]) -> float:
+def mad(numbers: list[Any], normalize: bool = False) -> float:
     """
     Calculate the median absolute deviation (MAD) of a list.
     The median of the abolutes deviations of the median.
     :param numbers: A list of numbers -> list[Any].
+    :param normalize: Normalize if is a normal distribution.
     :return: V -> float
     :raises ValueError: If 'numbers' is invalid.
     """
     _validate_numbers(numbers)
     numbers_median = median(numbers)
     abs_median_deviation = [abs(_ - numbers_median) for _ in numbers]
-    return median(abs_median_deviation)
+    mad = median(abs_median_deviation)
+    return mad * _MAD_K if normalize else mad
