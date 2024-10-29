@@ -54,3 +54,16 @@ def subtract(v: Vector, w: Vector) -> Vector:
     _validate_vector(v)
     _validate_vector(w)
     return Vector(v.x - w.x, v.y - w.y, v.z - w.z)
+
+def subtract_all(vectors: list[Vector]) -> Vector:
+    """
+    Subtract all vectors of a list of tridimensional vectors.
+    :param vectors: list of vectors -> list[Vector]
+    :return: subtract of all vectors -> Vector
+    :raise ValueError: if vectors is invalid
+    """
+    _validate_vectors(vectors)
+    result = vector[0]
+    for vector in vectors[1:]:
+        result = subtract(result, vector)
+    return vector
