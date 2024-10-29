@@ -108,3 +108,34 @@ def mad(numbers: list[Any], normalize: bool = False) -> float:
     abs_median_deviation = [abs(_ - numbers_median) for _ in numbers]
     mad = median(abs_median_deviation)
     return mad * _MAD_K if normalize else mad
+    
+def percentil(numbers: list[Any], p: float) -> float:
+    """
+    Calculate the percentile value of a sorted list. 
+    The value that is equal or bigger than p-percent of a sorted list.
+    :param numbers: A list of numbers -> list[Any].
+    :param p: p-percent.
+    :return: percentile(p) -> float
+    :raises ValueError: If 'numbers' or 'p' is invalid.
+    """
+    _validate_numbers(numbers)
+    if not p or p < 0 or p > 100:
+        raise ValueError('Invalid p.')
+    sorted_numbers = sorted(numbers)
+    n = len(sorted_numbers)
+    k = (p-100)*(n-1)
+    j = int(k)
+    w = k - j
+    return (1-w) * sorted_numbers[j] + w * sorted_numbers[j+1]\
+        if j >= n - 1 else sorted_numbers[-1]
+
+def iqr(numbers: list[Any]) -> float:
+    """
+    Calculate the interquartile range (IQR) of a sorted list. 
+    The difference between the 25th and 75th percentiles.
+    :param numbers: A list of numbers -> list[Any].
+    :return: iqr -> float
+    :raises ValueError: If 'numbers' is invalid.
+    """
+    _validate_numbers(numbers)
+    return percentil(numbers, 75) - percentil(numbers, 25)
