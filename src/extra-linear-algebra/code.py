@@ -63,7 +63,7 @@ def subtract_all(vectors: list[Vector]) -> Vector:
     :raise ValueError: if vectors is invalid
     """
     _validate_vectors(vectors)
-    result = vector[0]
+    result = vectors[0]
     for vector in vectors[1:]:
         result = subtract(result, vector)
-    return vector
+    return result

@@ -2,6 +2,8 @@ from typing import Any
 import math
 
 _MAD_K = 1.4826
+_P25TH = 25
+_P75TH = 75
 
 def _validate_numbers(numbers: list) -> None:
     if not numbers or not isinstance(numbers, list) or len(numbers) <= 0:
@@ -58,7 +60,7 @@ def median(numbers: list) -> float | None:
                 sorted_numbers[numbers_len//2 - 1]
         )/2
 
-def meanad(numbers: list[Any]) -> float:
+def mean_ad(numbers: list[Any]) -> float:
     """
     Calculates the mean absolute deviation of a list of numbers.
     The mean difference between the observed data and the mean of the list.
@@ -109,7 +111,7 @@ def mad(numbers: list[Any], normalize: bool = False) -> float:
     mad = median(abs_median_deviation)
     return mad * _MAD_K if normalize else mad
     
-def percentil(numbers: list[Any], p: float) -> float:
+def percentile(numbers: list[Any], p: float) -> float:
     """
     Calculate the percentile value of a sorted list. 
     The value that is equal or bigger than p-percent of a sorted list.
@@ -138,4 +140,4 @@ def iqr(numbers: list[Any]) -> float:
     :raises ValueError: If 'numbers' is invalid.
     """
     _validate_numbers(numbers)
-    return percentil(numbers, 75) - percentil(numbers, 25)
+    return percentile(numbers, _P75TH) - percentile(numbers, _P25TH)
