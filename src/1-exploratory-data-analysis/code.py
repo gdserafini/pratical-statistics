@@ -2,8 +2,10 @@ from typing import Any
 import math
 
 _MAD_K = 1.4826
+_P05TH = 5
 _P25TH = 25
 _P75TH = 75
+_P95TH = 95
 
 def _validate_numbers(numbers: list) -> None:
     if not numbers or not isinstance(numbers, list) or len(numbers) <= 0:
@@ -139,3 +141,17 @@ def iqr(numbers: list[Any]) -> float:
     """
     _validate_numbers(numbers)
     return percentile(numbers, _P75TH) - percentile(numbers, _P25TH)
+
+def percentiles(numbers: list[Any]) -> dict:
+    """
+    Calculate the 5 percentiles of a boxplot of a sorted list. 
+    5th, 25th, 50th, 75th and 95th.
+    :param numbers: A list of numbers -> list[Any].
+    :return: percentiles table -> dict
+    :raises ValueError: If 'numbers' is invalid.
+    """
+    _validate_numbers(numbers)
+    pths = [_P05TH, _P25TH, _P50TH, _P75TH, _P95TH]
+    return {
+        str(p): percentile(numbers, p) for p in pths
+    }
