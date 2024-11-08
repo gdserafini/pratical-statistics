@@ -22,10 +22,8 @@ def mean(numbers: list[Any]) -> Any:
 def trimmed_mean(numbers: list, p: float) -> float:
     if not numbers or p <= 0: return 0
     numbers_len = len(numbers)
-    #calculate how many values will be dropped -> p %
     trim = int(p * numbers_len)
     if 2 * trim > numbers_len: return 0
-    #sort and drop
     trimmed_numbers = sorted(numbers)[trim:numbers_len-trim+1]
     return sum(trimmed_numbers)/(len(trimmed_numbers) - 2*trim)
 
