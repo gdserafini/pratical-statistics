@@ -6,29 +6,25 @@ class Vector:
     self.x = x
     self.y = y
     self.z = z
+    _validator = _Validator()
 
   def __add__(self, other):
-    Validator(self).validate()
-    Validator(other).validate()
+    self._validator.validate(self)
+    self._validator.validate(other)
     return Vector(
       self.x + other.x, self.y + other.y, self.z + other.z
     )
 
   def __sub__(self, other):
-    Validator(self).validate()
-    Validator(other).validate()
+    self._validator.validate(self)
+    self._validator.validate(other)
     return Vector(
       self.x - other.x, self.y - other.y, self.z - other.z
     )
 
-class Validator:
-  _vector: Vector
-
-  def __init__(self, vector: Vector) -> None:
-    self._vector = vector
-
+class _Validator:
   @staticmethod
-  def validate(_vector=None) -> None:
+  def validate(_vector: Vector) -> None:
     if not _vector:
       raise ValueError("Invalid params.")
     if not isinstance(_vector, Vector):
