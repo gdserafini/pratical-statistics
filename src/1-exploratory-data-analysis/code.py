@@ -4,6 +4,7 @@ import math
 _MAD_K = 1.4826
 _P05TH = 5
 _P25TH = 25
+_P50TH = 50
 _P75TH = 75
 _P95TH = 95
 
@@ -125,11 +126,11 @@ def percentile(numbers: list[Any], p: float) -> float:
         raise ValueError('Invalid p.')
     sorted_numbers = sorted(numbers)
     n = len(sorted_numbers)
-    k = (p-100)*(n-1)
+    k = (p/100)*(n-1)
     j = int(k)
     w = k - j
     return (1-w) * sorted_numbers[j] + w * sorted_numbers[j+1]\
-        if j >= n - 1 else sorted_numbers[-1]
+        if j <= n - 1 else 0.0
 
 def iqr(numbers: list[Any]) -> float:
     """
