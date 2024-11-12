@@ -2,11 +2,9 @@ from typing import Any
 import math
 
 _MAD_K = 1.4826
-_P05TH = 5
 _P25TH = 25
 _P50TH = 50
 _P75TH = 75
-_P95TH = 95
 
 def _validate_numbers(numbers: list) -> None:
     if not numbers or not isinstance(numbers, list) or len(numbers) <= 0:
@@ -143,16 +141,37 @@ def iqr(numbers: list[Any]) -> float:
     _validate_numbers(numbers)
     return percentile(numbers, _P75TH) - percentile(numbers, _P25TH)
 
-def percentiles(numbers: list[Any]) -> dict:
+def quartiles(numbers: list[Any]) -> dict:
     """
-    Calculate the 5 percentiles of a boxplot of a sorted list. 
-    5th, 25th, 50th, 75th and 95th.
+    Calculate the quartiles of a sorted list. 
+    25th, 50th and 75th.
     :param numbers: A list of numbers -> list[Any].
     :return: percentiles table -> dict
     :raises ValueError: If 'numbers' is invalid.
     """
     _validate_numbers(numbers)
-    pths = [_P05TH, _P25TH, _P50TH, _P75TH, _P95TH]
+    pths = [_P25TH, _P50TH, _P75TH]
     return {
         str(p): percentile(numbers, p) for p in pths
+    }
+
+def box_plot_marks(numbers: list[Any]) -> dict:
+    """
+    Calculate the marks of a sorted list for a boxplot. 
+    Q1, Q2, Q3, whiskers up and whiskers down.
+    :param numbers: A list of numbers -> list[Any].
+    :return: boxplot table -> dict
+    :raises ValueError: If 'numbers' is invalid.
+    """
+    _validate_numbers(numbers)
+    iqr = iqr(numbers)
+    quartiles = quartiles(numbers)
+    up = quartiles['75'] + 1.5 * iqr
+    down = quartiles['25'] - 1.5 * iqr
+    return {
+        'WD': down,
+        '25': quartiles['25'],
+        '59': quartiles['50'],
+        '75': quartiles['75'],
+        'WP': up
     }
