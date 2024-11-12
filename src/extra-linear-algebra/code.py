@@ -25,13 +25,19 @@ class Vector:
   def __str__(self) -> str:
     return f'[{self.x}, {self.y}, {self.z}]'
 
+class Matrix:
+  """
+  This class represents a mutable matrix.
+  """
+  pass
+
 class _Validator:
   @staticmethod
-  def validate(_vector: Vector) -> None:
-    if not _vector:
+  def validate_vector(vector: Vector) -> None:
+    if not vector:
       raise ValueError("Invalid params.")
-    if not isinstance(_vector, Vector):
+    if not isinstance(vector, Vector):
       raise ValueError("Invalid data type.")
-    if (_vector.x < 0 or _vector.y < 0 or _vector.z < 0) or\
-      (type(_vector.x) != int or type(_vector.y) != int or type(_vector.z) != int):
+    if (vector.x < 0 or vector.y < 0 or vector.z < 0) or\
+      (type(vector.x) != int or type(vector.y) != int or type(vector.z) != int):
       raise ValueError("Invalid vector values.")
