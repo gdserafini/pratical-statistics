@@ -193,3 +193,12 @@ def outliers(numbers: list[Any]) -> dict:
         'top': list(filter(lambda n: n > up, numbers)),
         'bottom': list(filter(lambda n: n < down, numbers))
     }
+
+#def frequency_table(numbers: list[Any], bins: int = 1) -> dict:
+#    _validate_numbers(numbers)
+#    if not bins or bins <= 0 or not isinstance(bins, int):
+#        raise ValueError("Invalid 'bins' value.")
+#    numbers_len = len(numbers)
+#    return {
+#        
+#    }
