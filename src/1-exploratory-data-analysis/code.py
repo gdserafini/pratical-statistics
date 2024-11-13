@@ -175,3 +175,21 @@ def box_plot_marks(numbers: list[Any]) -> dict:
         '75': quartiles['75'],
         'WP': up
     }
+
+def outliers(numbers: list[Any]) -> dict:
+    """
+    Get the outliers of a list.
+    Dict with 'top' (> Q3 + 1.5 * IQR) and 'bottom' (< Q1 - 1.5 * IQR).
+    :param numbers: A list of numbers -> list[Any].
+    :return: outliers -> dict
+    :raises ValueError: If 'numbers' is invalid.
+    """
+    _validate_numbers(numbers)
+    iqr = iqr(numbers)
+    quartiles = quartiles(numbers)
+    up = quartiles['75'] + 1.5 * iqr
+    down = quartiles['25'] - 1.5 * iqr
+    return {
+        'top': list(filter(lambda n: n > up, numbers)),
+        'bottom': list(filter(lambda n: n < down, numbers))
+    }
