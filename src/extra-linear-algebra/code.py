@@ -2,7 +2,7 @@ class Vector:
   """
   This class represents a tridimensional vector.
   """
-  def __init__(self, x: int = 0, y: int = 0, z: int = 0) -> None:
+  def __init__(self, x: float = 0, y: float = 0, z: float = 0) -> None:
     self.x = x
     self.y = y
     self.z = z
@@ -30,15 +30,15 @@ class Matrix:
   This class represents a mutable matrix.
   """
   def __init__(self, i: int = 1, j: int = 1) -> None:
-    self._i = i
-    self._j = j
-    self._matrix = [[
+    self.i = i
+    self.j = j
+    self.matrix = [[
       0 for _ in range(self._j)]
       for _ in range(self._i)
     ]
 
   def get(self) -> list[list]:
-    return self._matrix
+    return self.matrix
 
 class _Validator:
   @staticmethod
@@ -47,10 +47,12 @@ class _Validator:
       raise ValueError("Invalid params.")
     if not isinstance(vector, Vector):
       raise ValueError("Invalid data type.")
-    if (vector.x < 0 or vector.y < 0 or vector.z < 0) or\
-      (type(vector.x) != int or type(vector.y) != int or type(vector.z) != int):
-      raise ValueError("Invalid vector values.")
 
   @staticmethod
   def validate_matrix(matrix: Matrix) -> None:
-    pass
+    if not matrix:
+      raise ValueError("Invalid params.")
+    if not isinstance(matrix, Matrix):
+      raise ValueError("Invalid data type.")
+    if matrix.i <= 0 or matrix.j <= 0:
+      raise ValueError("Invalid matrix")
