@@ -194,11 +194,31 @@ def outliers(numbers: list[Any]) -> dict:
         'bottom': list(filter(lambda n: n < down, numbers))
     }
 
-#def frequency_table(numbers: list[Any], bins: int = 1) -> dict:
-#    _validate_numbers(numbers)
-#    if not bins or bins <= 0 or not isinstance(bins, int):
-#        raise ValueError("Invalid 'bins' value.")
-#    numbers_len = len(numbers)
-#    return {
-#        
-#    }
+def frequency_table(numbers: list[Any], bins: int = 1) -> dict:
+    """
+    Get the frequencies of a sorted list.
+    :param numbers: A list of numbers -> list[Any].
+    :param bins: Number of bins.
+    :return: frequency -> dict
+    :raises ValueError: If 'numbers' is invalid.
+    """
+    _validate_numbers(numbers)
+    if not bins or bins <= 0 or not isinstance(bins, int):
+        raise ValueError("Invalid 'bins' value.")
+    min_value = min(numbers)
+    max_value = max(numbers)
+    bin_width = (max_value - min_value) / bins
+    bins = [
+        (min_value + i * bin_width, min_value + (i+1) * bin_width)
+        for i in range(bins)
+    ]
+    frequency_table = {
+        f"[{i + 1} ({round(b[0], 2)} - {round(b[1], 2)}]": 0
+        for i, b in enumerate(bins)
+    }
+    for num in numbers:
+        for i, (start, end) in enumerate(bins):
+            if start <= num < end:
+               frequency_table[f"Bin {i + 1} ({round(start, 2)} - {round(end, 2)}]"] += 1
+               break
+    return frequency_table

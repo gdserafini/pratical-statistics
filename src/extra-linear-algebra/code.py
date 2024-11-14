@@ -9,15 +9,15 @@ class Vector:
     self._validator = _Validator()
 
   def __add__(self, other):
-    self._validator.validate(self)
-    self._validator.validate(other)
+    self._validator.validate_vector(self)
+    self._validator.validate_vector(other)
     return Vector(
       self.x + other.x, self.y + other.y, self.z + other.z
     )
 
   def __sub__(self, other):
-    self._validator.validate(self)
-    self._validator.validate(other)
+    self._validator.validate_vector(self)
+    self._validator.validate_vector(other)
     return Vector(
       self.x - other.x, self.y - other.y, self.z - other.z
     )
@@ -29,7 +29,16 @@ class Matrix:
   """
   This class represents a mutable matrix.
   """
-  pass
+  def __init__(self, i: int = 1, j: int = 1) -> None:
+    self._i = i
+    self._j = j
+    self._matrix = [[
+      0 for _ in range(self._j)]
+      for _ in range(self._i)
+    ]
+
+  def get(self) -> list[list]:
+    return self._matrix
 
 class _Validator:
   @staticmethod
@@ -41,3 +50,7 @@ class _Validator:
     if (vector.x < 0 or vector.y < 0 or vector.z < 0) or\
       (type(vector.x) != int or type(vector.y) != int or type(vector.z) != int):
       raise ValueError("Invalid vector values.")
+
+  @staticmethod
+  def validate_matrix(matrix: Matrix) -> None:
+    pass
