@@ -29,10 +29,11 @@ class Matrix:
   """
   This class represents a mutable matrix.
   """
-  def __init__(self, i: int = 1, j: int = 1) -> None:
+  def __init__(self, matrix: list[list] = None, i: int = 0, j: int = 0) -> None:
     self.i = i
     self.j = j
-    self.matrix = [[
+    self.matrix = matrix if matrix else\
+    [[
       0 for _ in range(self._j)]
       for _ in range(self._i)
     ]
@@ -54,5 +55,5 @@ class _Validator:
       raise ValueError("Invalid params.")
     if not isinstance(matrix, Matrix):
       raise ValueError("Invalid data type.")
-    if matrix.i <= 0 or matrix.j <= 0:
+    if matrix.i < 0 or matrix.j < 0 or not matrix.matrix:
       raise ValueError("Invalid matrix")
