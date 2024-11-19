@@ -1,14 +1,17 @@
 from typing import Any
 import math
 
+
 _MAD_K = 1.4826
 _P25TH = 25
 _P50TH = 50
 _P75TH = 75
 
+
 def _validate_numbers(numbers: list) -> None:
     if not numbers or not isinstance(numbers, list) or len(numbers) <= 0:
         raise ValueError('Invalid data params.')
+
 
 def mean(numbers: list[Any]) -> Any:
     """
@@ -20,6 +23,7 @@ def mean(numbers: list[Any]) -> Any:
     _validate_numbers(numbers)
     return sum(numbers)/len(numbers)
 
+
 def trimmed_mean(numbers: list, p: float) -> float:
     if not numbers or p <= 0: return 0
     numbers_len = len(numbers)
@@ -28,12 +32,14 @@ def trimmed_mean(numbers: list, p: float) -> float:
     trimmed_numbers = sorted(numbers)[trim:numbers_len-trim+1]
     return sum(trimmed_numbers)/(len(trimmed_numbers) - 2*trim)
 
+
 def weighted_mean(numbers: list, weights: list) -> float:
     if not numbers or not weights: return 0
     if len(numbers) != len(weights):
         raise ValueError('Number of numbers and weights do not match')
     weighted_sum = sum(n * w for n, w in zip(numbers, weights))
     return weighted_sum / sum(weights)
+
 
 def trimmed_weighted_mean(numbers: list, weights: list, p: float) -> float:
     if not numbers or not weights or p <= 0: return 0
@@ -47,6 +53,7 @@ def trimmed_weighted_mean(numbers: list, weights: list, p: float) -> float:
     trimmed_weight_sum = sum(n * w for n, w in zip(trimmed_numbers, trimmed_weights))
     return trimmed_weight_sum / sum(trimmed_weights)
 
+
 def median(numbers: list) -> float | None:
     numbers_len = len(numbers)
     if numbers_len == 0: return None
@@ -58,6 +65,7 @@ def median(numbers: list) -> float | None:
                 sorted_numbers[numbers_len//2] +
                 sorted_numbers[numbers_len//2 - 1]
         )/2
+
 
 def mean_ad(numbers: list[Any]) -> float:
     """
@@ -72,6 +80,7 @@ def mean_ad(numbers: list[Any]) -> float:
     abs_deviation = sum(abs(_ - numbers_mean) for _ in numbers)
     return abs_deviation/len(numbers)
 
+
 def variance(numbers: list[Any]) -> float:
     """
     Calculate the variance of a list.
@@ -84,6 +93,7 @@ def variance(numbers: list[Any]) -> float:
     numbers_mean = mean(numbers)
     return (sum((_ - numbers_mean)**2 for _ in numbers))/(len(numbers)-1)
 
+
 def std(numbers: list[Any]) -> float:
     """
     Calculate the standard deviation of a list.
@@ -94,6 +104,7 @@ def std(numbers: list[Any]) -> float:
     """
     _validate_numbers(numbers)
     return math.sqrt(variance(numbers))
+
 
 def mad(numbers: list[Any], normalize: bool = False) -> float:
     """
@@ -109,7 +120,8 @@ def mad(numbers: list[Any], normalize: bool = False) -> float:
     abs_median_deviation = [abs(_ - numbers_median) for _ in numbers]
     mad = median(abs_median_deviation)
     return mad * _MAD_K if normalize else mad
-    
+
+
 def percentile(numbers: list[Any], p: float) -> float:
     """
     Calculate the percentile value of a sorted list. 
@@ -130,6 +142,7 @@ def percentile(numbers: list[Any], p: float) -> float:
     return (1-w) * sorted_numbers[j] + w * sorted_numbers[j+1]\
         if j <= n - 1 else 0.0
 
+
 def iqr(numbers: list[Any]) -> float:
     """
     Calculate the interquartile range (IQR) of a sorted list. 
@@ -140,6 +153,7 @@ def iqr(numbers: list[Any]) -> float:
     """
     _validate_numbers(numbers)
     return percentile(numbers, _P75TH) - percentile(numbers, _P25TH)
+
 
 def quartiles(numbers: list[Any]) -> dict:
     """
@@ -154,6 +168,7 @@ def quartiles(numbers: list[Any]) -> dict:
     return {
         str(p): percentile(numbers, p) for p in pths
     }
+
 
 def box_plot_marks(numbers: list[Any]) -> dict:
     """
@@ -176,6 +191,7 @@ def box_plot_marks(numbers: list[Any]) -> dict:
         'WP': up
     }
 
+
 def outliers(numbers: list[Any]) -> dict:
     """
     Get the outliers of a list.
@@ -193,6 +209,7 @@ def outliers(numbers: list[Any]) -> dict:
         'top': list(filter(lambda n: n > up, numbers)),
         'bottom': list(filter(lambda n: n < down, numbers))
     }
+
 
 def frequency_table(numbers: list[Any], bins: int = 1) -> dict:
     """
@@ -222,3 +239,15 @@ def frequency_table(numbers: list[Any], bins: int = 1) -> dict:
                frequency_table[f"Bin {i + 1} ({round(start, 2)} - {round(end, 2)}]"] += 1
                break
     return frequency_table
+
+
+def gaussian_kernel(
+    x: float, xi: float, bandwidth: float) -> float:
+    """
+    //TODO
+    """
+    if not x or not xi or not bandwidth:
+        raise ValueError('Invalid params values.')
+    return (
+        (1/math.sqrt(2 * math.pi)) * ((math.e) ** (-0.5 * (( x- xi)/bandwidth) ** 2)
+    )
