@@ -244,10 +244,15 @@ def frequency_table(numbers: list[Any], bins: int = 1) -> dict:
 def gaussian_kernel(
     x: float, xi: float, bandwidth: float) -> float:
     """
-    //TODO
+    Calculate the gaussian kernel of a value.
+    :param x: x value -> float.
+    :param xi: xi value -> float.
+    :param bandwidth: bandwidth -> float.
+    :return: gaussian kernel density (point) -> float.
+    :raises ValueError: If params is invalid.
     """
     if not x or not xi or not bandwidth:
         raise ValueError('Invalid params values.')
     return (
-        (1/math.sqrt(2 * math.pi)) * ((math.e) ** (-0.5 * (( x- xi)/bandwidth) ** 2)
+        (1/math.sqrt(2 * math.pi)) * (math.e ** (-0.5 * ((x - xi) / bandwidth) ** 2))
     )
