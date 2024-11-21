@@ -3,21 +3,21 @@ class Vector:
   This class represents a tridimensional vector.
   """
   def __init__(self, x: float = 0, y: float = 0, z: float = 0) -> None:
-    self._validator = _Validator()
+    _Validator.validate_coordinates([x, y, z])
     self.x = x
     self.y = y
     self.z = z
 
   def __add__(self, other):
-    self._validator.validate_vector(self)
-    self._validator.validate_vector(other)
+    _Validator.validate_vector(self)
+    _validator.validate_vector(other)
     return Vector(
       self.x + other.x, self.y + other.y, self.z + other.z
     )
 
   def __sub__(self, other):
-    self._validator.validate_vector(self)
-    self._validator.validate_vector(other)
+    _Validator.validate_vector(self)
+    _Validator.validate_vector(other)
     return Vector(
       self.x - other.x, self.y - other.y, self.z - other.z
     )
@@ -29,28 +29,14 @@ class Vector:
 
   def set(self, x: float = None, 
           y: float = None, z: float = None) -> None:
+    _Validator.validate_coordinates([x, y, z])
     self.x = x if x else self.x
     self.y = x if y else self.y
     self.z = x if z else self.z
 
 
 class Matrix:
-  """
-  This class represents a mutable matrix.
-  """
-  def __init__(self, matrix: list[list] = None, i: int = 0, j: int = 0) -> None:
-    self.i = i
-    self.j = j
-    self.matrix = matrix if matrix else\
-    [[
-      0 for _ in range(self.j)]
-      for _ in range(self.i)
-    ]
-
-  def get(self) -> list[list]: return self.matrix
-
-  def set(self, matrix: list[list] = None) -> None:
-    self.matrix = matrix if matrix else self.matrix
+  pass
 
 
 class _Validator:
@@ -58,14 +44,23 @@ class _Validator:
   def validate_vector(vector: Vector) -> None:
     if not vector:
       raise ValueError("Invalid params.")
-    if not isinstance(vector, Vector):
+    if not isinstance(vector, Vector) or validate_coordinates(vector):
       raise ValueError("Invalid data type.")
 
   @staticmethod
-  def validate_matrix(matrix: Matrix) -> None:
-    if not matrix:
-      raise ValueError("Invalid params.")
-    if not isinstance(matrix, Matrix):
-      raise ValueError("Invalid data type.")
-    if matrix.i < 0 or matrix.j < 0 or not matrix.matrix:
-      raise ValueError("Invalid matrix")
+  def validate_coordinates(vector: Vector | list[float]) -> None:
+    if not vector or (
+        not isinstance(vector, Vector) and
+        not isinstance(vector, list)
+    ):
+      raise ValueError('Invalid param.')
+    if (
+          type(vector.x) != 'float' or 
+          type(vector.y) != 'float' or 
+          type(vector.z) != 'float'
+       ) or (
+          type(vector[0]) != 'float' or 
+          type(vector[1]) != 'float' or 
+          type(vector[2]) != 'float'
+       ):
+      raise ValueError('Invalid param values.')
