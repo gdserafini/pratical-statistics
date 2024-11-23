@@ -241,7 +241,7 @@ def frequency_table(numbers: list[Any], bins: int = 1) -> dict:
     return frequency_table
 
 
-def gaussian_kernel(
+def kernel(
     x: float, xi: float, bandwidth: float) -> float:
     """
     Calculate the gaussian kernel of a value.
@@ -255,4 +255,21 @@ def gaussian_kernel(
         raise ValueError('Invalid params values.')
     return (
         (1/math.sqrt(2 * math.pi)) * (math.e ** (-0.5 * ((x - xi) / bandwidth) ** 2))
+    )
+
+def density(
+        x: float, numbers: list[float],
+        bandwidth: float) -> float:
+    """
+    Calculate the density of a sorted list.
+    :param x: x value -> float.
+    :param numbers: A list of numbers -> list[Any].
+    :param bandwidth: bandwidth -> float.
+    :return: density -> float.
+    :raises ValueError: If params is invalid.
+    """
+    numbers_len = len(numbers)
+    return (
+        (1/numbers_len*bandwidth) *
+        sum(kernel(x, xi, bandwidth) for xi in numbers)
     )
