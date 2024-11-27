@@ -1,6 +1,7 @@
 from typing import Any
 import math
 
+from IPython.utils.capture import capture_output
 
 _MAD_K = 1.4826
 _P25TH = 25
@@ -273,3 +274,35 @@ def density(
         (1/numbers_len*bandwidth) *
         sum(kernel(x, xi, bandwidth) for xi in numbers)
     )
+
+
+def counter(values: list[Any]) -> dict:
+    """
+    Count the occurrences of a number in a list of numbers.
+    :param values: A list of numbers -> list[Any].
+    :return: Counter -> dict
+    :raises ValueError: If params is invalid.
+    """
+    _validate_numbers(values)
+    count = {}
+    for value in values:
+        if value in count:
+            count[value] += 1
+        else:
+            count[value] = 1
+    return count
+
+
+def proportion(values: list[Any]) -> dict:
+    """
+    Calculate the proportion of a value in list.
+    :param values: A list of numbers -> list[Any].
+    :return: Proportion -> dict
+    :raises ValueError: If params is invalid.
+    """
+    count = counter(values)
+    total = sum(count.values())
+    proportion = {}
+    for value in count:
+        proportion[value] = round((count[value] / total), 2)
+    return proportion
