@@ -306,3 +306,18 @@ def proportion(values: list[Any]) -> dict:
     for value in count:
         proportion[value] = round((count[value] / total), 2)
     return proportion
+
+
+def mode(numbers: list[Any]) -> float:
+    """
+    Calculate the mode of a sorted list.
+    :param numbers: A list of numbers -> list[Any].
+    :return: Mode -> float.
+    :raises ValueError: If params is invalid.
+    """
+    _validate_numbers(numbers)
+    count = counter(numbers)
+    sorted_numbers = dict(
+        sorted(count.items(), key=lambda item: item[1], reverse=True)
+    )
+    return list(sorted_numbers.keys())[0]
