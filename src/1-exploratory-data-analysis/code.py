@@ -1,6 +1,7 @@
 from typing import Any
 import math
 
+from prometheus_client import values
 
 _MAD_K = 1.4826
 _P25TH = 25
@@ -179,15 +180,15 @@ def box_plot_marks(numbers: list[Any]) -> dict:
     :raises ValueError: If 'numbers' is invalid.
     """
     _validate_numbers(numbers)
-    iqr = iqr(numbers)
-    quartiles = quartiles(numbers)
-    up = quartiles['75'] + 1.5 * iqr
-    down = quartiles['25'] - 1.5 * iqr
+    iqr_ = iqr(numbers)
+    quartiles_ = quartiles(numbers)
+    up = quartiles_['75'] + 1.5 * iqr_
+    down = quartiles_['25'] - 1.5 * iqr_
     return {
         'WD': down,
-        '25': quartiles['25'],
-        '59': quartiles['50'],
-        '75': quartiles['75'],
+        '25': quartiles_['25'],
+        '59': quartiles_['50'],
+        '75': quartiles_['75'],
         'WP': up
     }
 
@@ -201,10 +202,10 @@ def outliers(numbers: list[Any]) -> dict:
     :raises ValueError: If 'numbers' is invalid.
     """
     _validate_numbers(numbers)
-    iqr = iqr(numbers)
-    quartiles = quartiles(numbers)
-    up = quartiles['75'] + 1.5 * iqr
-    down = quartiles['25'] - 1.5 * iqr
+    iqr_ = iqr(numbers)
+    quartiles_ = quartiles(numbers)
+    up = quartiles_['75'] + 1.5 * iqr_
+    down = quartiles_['25'] - 1.5 * iqr_
     return {
         'top': list(filter(lambda n: n > up, numbers)),
         'bottom': list(filter(lambda n: n < down, numbers))
@@ -333,3 +334,18 @@ def expected_value(values: list[Any], probabilities: list[float]) -> float:
     _validate_numbers(values)
     _validate_numbers(probabilities)
     return sum(v * p for v, p in zip(values, probabilities))
+
+
+def probability(value: Any, numbers: list[Any]) -> float:
+    """
+    Calculate the probability of a value in a list of numbers.
+    :param value: Value -> float.
+    :param numbers: A list of numbers -> list[Any].
+    :return: Probability -> float.
+    :raises ValueError: If params is invalid.
+    """
+    if not value or value not in numbers:
+        raise ValueError('Invalid value.')
+    _validate_numbers(numbers)
+    proportions = proportion(numbers)
+    return proportions[value]
