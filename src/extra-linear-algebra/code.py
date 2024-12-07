@@ -19,6 +19,11 @@ class Vector:
 
     def __str__(self): return str(self._values)
 
+    def __mul__(self, scalar) -> Any:
+        return Vector([scalar * v for v in self._values])
+
+    def __rmul__(self, scalar) -> Any: return self.__mul__(scalar)
+
 
 def sum_vectors(vectors: list[Vector]) -> Vector:
     vector_sum = Vector([0,0,0])
