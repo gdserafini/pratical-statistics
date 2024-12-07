@@ -1,7 +1,6 @@
 from typing import Any
 import math
 
-from IPython.utils.capture import capture_output
 
 _MAD_K = 1.4826
 _P25TH = 25
@@ -321,3 +320,16 @@ def mode(numbers: list[Any]) -> float:
         sorted(count.items(), key=lambda item: item[1], reverse=True)
     )
     return list(sorted_numbers.keys())[0]
+
+
+def expected_value(values: list[Any], probabilities: list[float]) -> float:
+    """
+    Calculate the expected value of a list of numbers.
+    :param values: A list of numbers -> list[Any].
+    :param probabilities: A list of probabilities -> list[float].
+    :return: Expected value -> float.
+    :raises ValueError: If params is invalid.
+    """
+    _validate_numbers(values)
+    _validate_numbers(probabilities)
+    return sum(v * p for v, p in zip(values, probabilities))
