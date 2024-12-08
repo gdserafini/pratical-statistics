@@ -1,4 +1,5 @@
 from typing import Any
+from collections.abc import Iterable
 
 
 class Vector:
@@ -25,8 +26,14 @@ class Vector:
     def __rmul__(self, scalar) -> Any: return self.__mul__(scalar)
 
 
-def sum_vectors(vectors: list[Vector]) -> Vector:
+def vsum(vectors: Iterable) -> Vector:
     vector_sum = Vector([0,0,0])
     for vector in vectors:
         vector_sum = vector_sum + vector
     return vector_sum
+
+
+def vmean(vectors: Iterable) -> Vector:
+    _sum = vsum(vectors)
+    _len = len(list(vectors))
+    return 1/_len * _sum
