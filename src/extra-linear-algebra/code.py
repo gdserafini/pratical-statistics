@@ -26,14 +26,20 @@ class Vector:
     def __rmul__(self, scalar) -> Any: return self.__mul__(scalar)
 
 
-def vsum(vectors: Iterable) -> Vector:
-    vector_sum = Vector([0,0,0])
-    for vector in vectors:
-        vector_sum = vector_sum + vector
-    return vector_sum
+class VectorOperator:
+    @staticmethod
+    def vsum(vectors: Iterable) -> Vector:
+        vector_sum = Vector([0,0,0])
+        for vector in vectors:
+            vector_sum = vector_sum + vector
+        return vector_sum
 
+    @staticmethod
+    def vmean(vectors: Iterable) -> Vector:
+        _sum = VectorOperator.vsum(vectors)
+        _len = len(list(vectors))
+        return 1/_len * _sum
 
-def vmean(vectors: Iterable) -> Vector:
-    _sum = vsum(vectors)
-    _len = len(list(vectors))
-    return 1/_len * _sum
+    @staticmethod
+    def dot(v: Vector, w: Vector) -> float:
+        return sum(vi * wi for vi, wi in zip(v.get(), w.get()))
