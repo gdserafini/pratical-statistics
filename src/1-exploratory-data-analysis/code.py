@@ -1,7 +1,7 @@
 from typing import Any
 import math
+from collections.abc import Iterable
 
-from prometheus_client import values
 
 _MAD_K = 1.4826
 _P25TH = 25
@@ -9,20 +9,20 @@ _P50TH = 50
 _P75TH = 75
 
 
-def _validate_numbers(numbers: list) -> None:
-    if not numbers or not isinstance(numbers, list) or len(numbers) <= 0:
+def _validate_numbers(numbers: Iterable) -> None:
+    if not isinstance(numbers, Iterable) or len(list(numbers)) <= 0:
         raise ValueError('Invalid data params.')
 
 
-def mean(numbers: list[Any]) -> Any:
+def mean(numbers: Iterable) -> float:
     """
     Calculates the mean of a list of numbers.
-    :param numbers: A list of numbers -> list[Any].
-    :return: The mean of the numbers -> Any.
+    :param numbers: A list of numbers -> Iterable.
+    :return: The mean of the numbers -> float.
     :raises ValueError: If 'numbers' is invalid.
     """
     _validate_numbers(numbers)
-    return sum(numbers)/len(numbers)
+    return sum(numbers)/len(list(numbers))
 
 
 def trimmed_mean(numbers: list, p: float) -> float:
@@ -349,3 +349,25 @@ def probability(value: Any, numbers: list[Any]) -> float:
     _validate_numbers(numbers)
     proportions = proportion(numbers)
     return proportions[value]
+
+
+def _get_r_metrics(x: list[Any]) -> tuple:
+    return mean(x), std(x)
+
+
+def correlation_coefficient(x: list[Any], y: list[Any]) -> float:
+    """
+    Calculate the correlation coefficient of a sorted list of numbers.
+    :param x: A list of numbers -> list[Any].
+    :param y: A list of numbers -> list[Any].
+    :return: Correlation coefficient -> float.
+    :raises ValueError: If params is invalid.
+    """
+    _validate_numbers(x)
+    _validate_numbers(y)
+    if len(x) != len(y):
+        raise ValueError('x and y must have the same length.')
+    mean_x, std_x = _get_r_metrics(x)
+    mean_y, std_y = _get_r_metrics(y)
+    sum_r = sum((x - mean_x) * (y - mean_y) for x, y in zip(x, y))
+    return sum_r / ((len(x) - 1) * std_x * std_y)
