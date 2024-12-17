@@ -1,5 +1,6 @@
 from typing import Any
 from collections.abc import Iterable
+from enum import Enum
 
 
 class Vector:
@@ -26,6 +27,12 @@ class Vector:
     def __rmul__(self, scalar) -> Any: return self.__mul__(scalar)
 
 
+class _PAxis(Enum):
+    X = [1, 0, 0]
+    Y = [0, 1, 0]
+    Z = [0, 0, 1]
+
+
 class VectorOperator:
     @staticmethod
     def vsum(vectors: Iterable) -> Vector:
@@ -43,3 +50,11 @@ class VectorOperator:
     @staticmethod
     def dot(v: Vector, w: Vector) -> float:
         return sum(vi * wi for vi, wi in zip(v.get(), w.get()))
+
+    @staticmethod
+    def projection(vector: Vector, axis: _PAxis = _PAxis.X) -> float:
+        return VectorOperator.dot(vector, Vector(axis.value))
+
+    @staticmethod
+    def sum_of_squares(vector: Vector) -> float:
+        return VectorOperator.dot(vector, vector)
