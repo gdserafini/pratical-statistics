@@ -6,9 +6,13 @@ def _z_value(data: Any) -> float:
 
 
 def sample(
-    data: Any, replacement: bool = False,
+    data: Any, replacement: bool = False, size: int = 0,
     error_margin: float = 0.05, confidence_level: float = 0.95,
     distribution: float = 0.5, increase: float = 0.0,
     stratum_column: str = None, strata: list[str] = None
 ) -> Any:
+    pass
+
+
+def sample_distribution(data: Any, size: int, statistic: str) -> dict:
     pass
