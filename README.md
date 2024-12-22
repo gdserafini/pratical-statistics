@@ -6,5 +6,5 @@ The main purpose of this repository is to be a quick review of the most importan
 
 The theory and code examples are organized by chapters and their respective topics:
 - [1 - Exploratory Data Analysis](src/exploratory_data_analysis)
-- [2 - Data and Sampling Distributions](src/b-data-and-sampling-distributions)
+- [2 - Data and Sampling Distributions](src/data_and_sampling_distributions)
 - [Extra: Linear Algebra](src/extra_linear_algebra)
