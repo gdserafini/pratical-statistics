@@ -35,15 +35,15 @@ class PAxis(Enum):
 
 class VectorOperator:
     @staticmethod
-    def vsum(vectors: Iterable) -> Vector:
+    def sum(vectors: Iterable) -> Vector:
         vector_sum = Vector([0,0,0])
         for vector in vectors:
             vector_sum = vector_sum + vector
         return vector_sum
 
     @staticmethod
-    def vmean(vectors: Iterable) -> Vector:
-        _sum = VectorOperator.vsum(vectors)
+    def mean(vectors: Iterable) -> Vector:
+        _sum = VectorOperator.sum(vectors)
         _len = len(list(vectors))
         return 1/_len * _sum
 
