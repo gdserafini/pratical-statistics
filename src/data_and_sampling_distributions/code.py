@@ -11,9 +11,9 @@ _z = {
 
 
 def sample(
-    data: Any,
-    error_margin: float = 0.05,
-    confidence_level: float = 0.95
+        data: Any,
+        error_margin: float = 0.05,
+        confidence_level: float = 0.95
 ) -> Any:
     sample_size = (
         ((_z[str(confidence_level)] * eda.std(data))/error_margin)**2
@@ -37,3 +37,11 @@ def std_error(sample: Any) -> float:
     sample_std = eda.std(sample)
     n = len(sample)
     return sample_std/math.sqrt(n)
+
+
+def bootstrap(
+        data: Any,
+        sample_size: int,
+        statistic: str = 'mean'
+) -> Any:
+    pass
