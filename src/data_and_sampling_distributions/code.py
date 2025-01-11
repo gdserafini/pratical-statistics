@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Callable
 import src.exploratory_data_analysis.code as eda
 import math
 from sklearn.utils import resample
@@ -40,8 +40,8 @@ def std_error(sample: Any) -> float:
 
 
 def bootstrap(
-        sample: Any,
-        r: int = 1000) -> pd.Series:
+        sample: Any, r: int = 1000,
+        callback: Callable[[], float]) -> pd.Series:
     results = []
     for _ in range(r):
         results.append(resample(sample).mean())
